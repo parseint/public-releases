@@ -3,9 +3,9 @@ Repositório público dos releases de apps binários da Parseint e outros arquiv
 
 ## Descrição
 
- - app-catraca: Gestor para integrar as principais catracas ao Sischef PDV online;
- - monitor-impressao: Gestor de impressoras utilizado pelo PDV Sischef online;
- - pdv-electron: Utilizado principalmente para integrar leitura de peso de balança no PDV Sischef online;
- - whatsapp-connect: Utilizado para integrar os status dos pedidos ao WhatsApp
+ - `app-catraca`: Gestor para integrar as principais catracas ao Sischef PDV online;
+ - `monitor-impressao`: Gestor de impressoras utilizado pelo PDV Sischef online;
+ - `pdv-electron`: Utilizado principalmente para integrar leitura de peso de balança no PDV Sischef online;
+ - `whatsapp-connect`: Utilizado para integrar os status dos pedidos ao WhatsApp
 
 
