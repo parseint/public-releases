@@ -1,0 +1,57 @@
+name: "Publicar página de downloads"
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'sischef/**'
+      - 'wallpapers/**'
+      - 'site/**'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Se dois builds publicarem quase juntos, o último ganha e o anterior é cancelado.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - name: Checkout (sem baixar binários)
+        uses: actions/checkout@v4
+        with:
+          lfs: false
+          sparse-checkout: site
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Gerar a página
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: main
+        run: node site/build.js
+
+      - name: Configurar GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Enviar artefato
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+      - name: Publicar
+        id: deploy
+        uses: actions/deploy-pages@v4

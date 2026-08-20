@@ -1,0 +1,121 @@
+{
+  "titulo": "Downloads Sischef",
+  "subtitulo": "Baixe aqui os aplicativos para PC que complementam o Sischef.",
+  "dominio": "downloads.sischef.com",
+  "suporte": {
+    "texto": "Precisa de ajuda para instalar?",
+    "url": "",
+    "rotulo": "Falar com o suporte",
+    "_comentario": "Preencha a url (WhatsApp/site de suporte). Vazio = bloco de suporte nao aparece na pagina."
+  },
+  "categorias": [
+    {
+      "id": "aplicativos",
+      "titulo": "Aplicativos",
+      "apps": [
+        {
+          "pasta": "sischef/monitor-impressao",
+          "nome": "Monitor de Impressão",
+          "descricao": "Gerencia as impressoras do PC e imprime os pedidos vindos do Sischef PDV online. Instale no computador onde as impressoras estão conectadas.",
+          "requisitos": "Windows 10 ou superior (64 bits)",
+          "icone": "impressora",
+          "destaque": true,
+          "autoUpdate": "Este aplicativo se atualiza sozinho depois de instalado.",
+          "extensoes": [
+            ".exe"
+          ],
+          "ignorar": [
+            "latest.yml",
+            ".blockmap",
+            "build-date.txt"
+          ],
+          "historicoEm": "sischef/monitor-impressao/releases"
+        },
+        {
+          "pasta": "sischef/pdv-electron",
+          "nome": "PDV Sischef para Windows",
+          "descricao": "Versão instalável do PDV Sischef. Roda como programa no PC e libera recursos que o navegador não permite, como leitura de balança e impressão direta.",
+          "requisitos": "Windows 10 ou superior (64 bits)",
+          "icone": "monitor",
+          "destaque": true,
+          "principal": "PDV Sischef Setup.exe",
+          "extensoes": [
+            ".exe",
+            ".zip"
+          ],
+          "ignorar": [
+            "build-date.txt"
+          ]
+        },
+        {
+          "pasta": "sischef/totem-electron",
+          "nome": "Totem de Autoatendimento",
+          "descricao": "Versão do PDV preparada para o totem de autoatendimento, em tela cheia e sem acesso ao restante do sistema.",
+          "requisitos": "Windows 10 ou superior (64 bits)",
+          "icone": "totem",
+          "principal": "PDV Sischef Totem Setup.exe",
+          "extensoes": [
+            ".exe"
+          ],
+          "ignorar": [
+            "build-date.txt"
+          ]
+        },
+        {
+          "pasta": "sischef/whatsapp-connect",
+          "nome": "WhatsApp Connect",
+          "oculto": true,
+          "_oculto": "true = a pasta nao aparece na pagina. Troque para false para publicar.",
+          "descricao": "Avisa o cliente pelo WhatsApp a cada mudança de status do pedido. Precisa ficar aberto no PC com o WhatsApp conectado.",
+          "requisitos": "Windows 10 ou superior (64 bits)",
+          "icone": "whatsapp",
+          "extensoes": [
+            ".exe"
+          ],
+          "ignorar": [
+            "build-date.txt"
+          ]
+        },
+        {
+          "pasta": "sischef/app-catraca",
+          "nome": "Gestor de Catraca",
+          "descricao": "Integra as principais catracas de acesso ao Sischef PDV online, liberando a entrada conforme o consumo.",
+          "requisitos": "Windows 10 ou superior (64 bits)",
+          "icone": "catraca",
+          "extensoes": [
+            ".exe"
+          ],
+          "recursivo": false
+        },
+        {
+          "pasta": "sischef/sischef-le-peso",
+          "nome": "Leitor de Balança",
+          "descricao": "Faz a ponte entre a balança conectada na porta serial e o PDV Sischef no navegador.",
+          "requisitos": "Windows 10 ou superior · balança com saída serial/USB",
+          "icone": "balanca",
+          "extensoes": [
+            ".exe"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "extras",
+      "titulo": "Extras",
+      "descricao": "Materiais avulsos para uso nas telas e computadores da operação.",
+      "apps": [
+        {
+          "pasta": "wallpapers",
+          "nome": "Papéis de parede",
+          "descricao": "Imagens de fundo do Sischef e da Parseint para usar nos monitores da loja.",
+          "icone": "imagem",
+          "extensoes": [
+            ".png",
+            ".jpg"
+          ],
+          "listarTodos": true
+        }
+      ]
+    }
+  ]
+}

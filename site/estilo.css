@@ -1,0 +1,359 @@
+/*
+ * Estilo da pagina publica de downloads. Inline no HTML final pelo site/build.js.
+ *
+ * Cores e tipografia espelham o tema do Cardapio Sischef
+ * (cardapio-sischef/frontend/src/theme/palette.ts e typography.ts):
+ *   primaria  #f10b5c    secundaria #747f86    fonte Montserrat
+ *   dark      fundo #1b252d  paper #2a3a47  header #222f39  hover #43505b
+ *   light     fundo #f7f8fa  paper #ffffff  header #ebebeb
+ */
+
+:root {
+  color-scheme: light dark;
+
+  --marca: #f10b5c;
+  --marca-forte: #c40946;
+  --marca-texto: #f10b5c;
+  --marca-tenue: rgba(241, 11, 92, 0.08);
+  --marca-borda: rgba(241, 11, 92, 0.3);
+
+  --fundo: #f7f8fa;
+  --superficie: #ffffff;
+  --borda: #ebebeb;
+  --texto: #1b252d;
+  --texto-fraco: #747f86;
+
+  --sombra: 0 1px 2px rgba(27, 37, 45, 0.05), 0 10px 28px -22px rgba(27, 37, 45, 0.45);
+  --raio: 6px;
+  --raio-pequeno: 5px;
+
+  --fonte: "Montserrat", Roboto, Helvetica, Arial, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    /* O rosa da marca sobre o azul escuro nao alcanca contraste de texto pequeno,
+       entao o botao mantem a cor exata do sistema e o texto usa a versao clara. */
+    --marca-texto: #ff4d85;
+    --marca-forte: #ff4d85;
+    --marca-tenue: rgba(241, 11, 92, 0.16);
+    --marca-borda: rgba(255, 77, 133, 0.34);
+
+    --fundo: #1b252d;
+    --superficie: #2a3a47;
+    --borda: #43505b;
+    --texto: #ffffff;
+    --texto-fraco: #9dabb5;
+
+    --sombra: 0 1px 2px rgba(0, 0, 0, 0.35);
+  }
+}
+
+:root[data-theme="dark"] {
+  --marca-texto: #ff4d85;
+  --marca-forte: #ff4d85;
+  --marca-tenue: rgba(241, 11, 92, 0.16);
+  --marca-borda: rgba(255, 77, 133, 0.34);
+
+  --fundo: #1b252d;
+  --superficie: #2a3a47;
+  --borda: #43505b;
+  --texto: #ffffff;
+  --texto-fraco: #9dabb5;
+
+  --sombra: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 0 20px 80px;
+  background: var(--fundo);
+  color: var(--texto);
+  font-family: var(--fonte);
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; }
+
+:focus-visible {
+  outline: 2px solid var(--marca-texto);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+.envolucro {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+/* ---------- topo ---------- */
+
+header { padding-top: 60px; }
+
+.marca-eyebrow {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--marca-texto);
+  margin-bottom: 14px;
+}
+
+header h1 {
+  font-weight: 500;
+  font-size: clamp(29px, 5vw, 35px);
+  line-height: 1.2;
+  text-wrap: balance;
+  margin: 0 0 12px;
+}
+
+header p {
+  margin: 0;
+  color: var(--texto-fraco);
+  font-size: 16px;
+  max-width: 58ch;
+}
+
+/* ---------- secoes ---------- */
+
+section { display: flex; flex-direction: column; gap: 4px; }
+
+h2 {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--texto-fraco);
+  margin: 0;
+}
+
+.sub { margin: 0; color: var(--texto-fraco); }
+
+.grade {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  margin-top: 14px;
+}
+
+/* ---------- card de aplicativo ---------- */
+
+.app {
+  background: var(--superficie);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  padding: 24px;
+  box-shadow: var(--sombra);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  opacity: 0;
+  transform: translateY(8px);
+  animation: entra 0.6s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+}
+
+.app:nth-child(2) { animation-delay: 0.06s; }
+.app:nth-child(3) { animation-delay: 0.12s; }
+.app:nth-child(4) { animation-delay: 0.18s; }
+.app:nth-child(5) { animation-delay: 0.24s; }
+.app:nth-child(n + 6) { animation-delay: 0.3s; }
+
+@keyframes entra { to { opacity: 1; transform: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .app { animation: none; opacity: 1; transform: none; }
+  .baixar { transition: none; }
+}
+
+.app.destaque { border-color: var(--marca-borda); }
+
+.topo {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.icone {
+  flex: 0 0 42px;
+  height: 42px;
+  border-radius: var(--raio-pequeno);
+  display: grid;
+  place-items: center;
+  background: var(--marca-tenue);
+}
+
+.icone svg {
+  width: 21px;
+  height: 21px;
+  fill: none;
+  stroke: var(--marca-texto);
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* No app em destaque o icone e solido: diferencia sem virar tarja colorida no card. */
+.app.destaque .icone { background: var(--marca); }
+.app.destaque .icone svg { stroke: #fff; }
+
+.app h3 {
+  font-weight: 500;
+  font-size: 16px;
+  margin: 0;
+}
+
+.meta {
+  font-variant-numeric: tabular-nums;
+  font-size: 12px;
+  color: var(--texto-fraco);
+  margin: 4px 0 0;
+}
+
+.descricao { margin: 16px 0 0; }
+
+.requisitos,
+.aviso-update {
+  margin: 10px 0 0;
+  font-size: 12px;
+  color: var(--texto-fraco);
+}
+
+.aviso-update { color: var(--marca-texto); }
+
+.baixar {
+  margin-top: 22px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  background: var(--marca);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+  padding: 11px 24px;
+  border-radius: var(--raio-pequeno);
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.baixar svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.baixar:hover { background: #c40946; transform: translateY(-1px); }
+.baixar:active { transform: none; }
+
+/* ---------- listas de arquivos ---------- */
+
+.anteriores {
+  width: 100%;
+  margin-top: 20px;
+  border-top: 1px solid var(--borda);
+  padding-top: 12px;
+}
+
+.anteriores summary {
+  cursor: pointer;
+  font-size: 12px;
+  color: var(--texto-fraco);
+}
+
+.anteriores summary:hover { color: var(--texto); }
+
+ul { list-style: none; margin: 10px 0 0; padding: 0; width: 100%; }
+
+ul li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  align-items: baseline;
+  padding: 6px 0;
+}
+
+ul li a {
+  font-size: 13px;
+  text-decoration: none;
+  border-bottom: 1px solid var(--borda);
+  word-break: break-all;
+}
+
+ul li a:hover { border-bottom-color: var(--marca-texto); }
+
+ul li span {
+  font-variant-numeric: tabular-nums;
+  color: var(--texto-fraco);
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.lista-simples { margin-top: 16px; }
+
+/* ---------- blocos de rodape ---------- */
+
+.instalacao,
+.suporte {
+  background: var(--superficie);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  padding: 24px;
+}
+
+.instalacao ol {
+  margin: 14px 0 0;
+  padding-left: 20px;
+  color: var(--texto-fraco);
+}
+
+.instalacao li { margin-bottom: 8px; }
+.instalacao li:last-child { margin-bottom: 0; }
+.instalacao strong { color: var(--texto); font-weight: 500; }
+
+.suporte {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.suporte p { margin: 0; }
+
+.suporte a {
+  color: var(--marca-texto);
+  font-weight: 500;
+  text-decoration: none;
+  border: 1px solid var(--marca-borda);
+  padding: 10px 20px;
+  border-radius: var(--raio-pequeno);
+  transition: background 0.25s ease;
+}
+
+.suporte a:hover { background: var(--marca-tenue); }
+
+footer {
+  color: var(--texto-fraco);
+  font-size: 11px;
+  text-align: center;
+  padding-bottom: 8px;
+}
+
+@media (max-width: 540px) {
+  header { padding-top: 40px; }
+  .envolucro { gap: 32px; }
+  .app { padding: 20px; }
+  .baixar { align-self: stretch; justify-content: center; }
+}
