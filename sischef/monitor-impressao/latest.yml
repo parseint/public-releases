@@ -1,8 +1,8 @@
-version: 3.0.8
+version: 3.0.9
 files:
-  - url: Setup_Monitor_Parseint_3.0.8.exe
-    sha512: efgxeC9HlaNtwDJnzSz8kUdO8+h/U/zyb2AktHGr4r3V5Q9NJAPtoUjLg7a5WMnSOpzeQQDxA1h2y5tONuZmvQ==
-    size: 56359655
-path: Setup_Monitor_Parseint_3.0.8.exe
-sha512: efgxeC9HlaNtwDJnzSz8kUdO8+h/U/zyb2AktHGr4r3V5Q9NJAPtoUjLg7a5WMnSOpzeQQDxA1h2y5tONuZmvQ==
-releaseDate: '2026-08-03T19:07:33.701Z'
+  - url: Setup_Monitor_Parseint_3.0.9.exe
+    sha512: 0vO2xpqB/Ot97nfKqT6fdGIiaJdXDJA1qYDNHZFqCbSJQIZ6VEgUyVjbI5p43okxJplVrCJblCcfiAeSWmsTcw==
+    size: 56366288
+path: Setup_Monitor_Parseint_3.0.9.exe
+sha512: 0vO2xpqB/Ot97nfKqT6fdGIiaJdXDJA1qYDNHZFqCbSJQIZ6VEgUyVjbI5p43okxJplVrCJblCcfiAeSWmsTcw==
+releaseDate: '2026-08-21T13:28:32.960Z'
