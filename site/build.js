@@ -18,6 +18,14 @@ const TOKEN = process.env.GITHUB_TOKEN || ''
 const RAIZ = path.resolve(__dirname, '..')
 const SAIDA = path.join(RAIZ, 'dist')
 
+// Usado so quando o apps.json nao declara "abas"
+const INSTALACAO_PADRAO = [
+  'Clique em **Baixar**. O arquivo vai para a pasta **Downloads** do seu computador.',
+  'Abra o arquivo baixado com dois cliques.',
+  'Se o Windows mostrar o aviso **"O Windows protegeu o computador"**, clique em **Mais informações** e depois em **Executar assim mesmo**. O aviso aparece porque o instalador é distribuído fora da loja da Microsoft.',
+  'Siga o instalador até o fim e abra o programa.',
+]
+
 const cabecalhos = {
   Accept: 'application/vnd.github+json',
   'User-Agent': 'parseint-releases-site',
@@ -99,6 +107,11 @@ function formataData(iso) {
 function esc(texto) {
   const mapa = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }
   return String(texto === null || texto === undefined ? '' : texto).replace(/[&<>"']/g, (c) => mapa[c])
+}
+
+// Passo de instalacao: texto escapado, com **trecho** virando negrito
+function formataPasso(texto) {
+  return esc(texto).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
 }
 
 const ICONES = {
@@ -234,7 +247,66 @@ function renderizaApp(app) {
     </article>`
 }
 
-function renderizaPagina(cfg, categorias, geradoEm, estilo) {
+function renderizaCategoria(cat) {
+  return `
+  <section>
+    <h2>${esc(cat.titulo)}</h2>
+    ${cat.descricao ? `<p class="sub">${esc(cat.descricao)}</p>` : ''}
+    <div class="grade">${cat.apps.map(renderizaApp).join('')}</div>
+  </section>`
+}
+
+function renderizaInstalacao(aba) {
+  if (!aba.instalacao || !aba.instalacao.length) return ''
+
+  return `
+  <section class="instalacao">
+    <h2>Como instalar</h2>
+    <ol>
+${aba.instalacao.map((passo) => `      <li>${formataPasso(passo)}</li>`).join('\n')}
+    </ol>
+  </section>`
+}
+
+function renderizaConteudoDaAba(aba) {
+  return aba.categorias.map(renderizaCategoria).join('') + renderizaInstalacao(aba)
+}
+
+// Com uma aba so (ex.: Android ainda sem APK publicado) a pagina sai sem barra de abas, como antes
+function renderizaAbas(abas) {
+  if (abas.length === 1) return renderizaConteudoDaAba(abas[0])
+
+  const entradas = abas
+    .map((aba, i) => `  <input type="radio" name="aba" id="aba-${aba.id}"${i === 0 ? ' checked' : ''}>`)
+    .join('\n')
+  const rotulos = abas.map((aba) => `<label for="aba-${aba.id}">${esc(aba.titulo)}</label>`).join('')
+  const paineis = abas
+    .map((aba) => `  <div class="aba-painel aba-painel-${aba.id}">${renderizaConteudoDaAba(aba)}\n  </div>`)
+    .join('\n')
+
+  return `
+  <div class="abas">
+${entradas}
+  <nav class="abas-rotulos" aria-label="Plataforma">${rotulos}</nav>
+${paineis}
+  </div>
+  <script>(function(){var e=document.getElementById('aba-'+decodeURIComponent(location.hash.slice(1)));if(e&&e.type==='radio')e.checked=true})()</script>`
+}
+
+function cssDasAbas(abas) {
+  if (abas.length < 2) return ''
+
+  return abas
+    .map(
+      (aba) => `
+#aba-${aba.id}:checked ~ .aba-painel-${aba.id} { display: flex; }
+#aba-${aba.id}:checked ~ .abas-rotulos label[for="aba-${aba.id}"] { color: var(--marca-texto); border-bottom-color: var(--marca); }
+#aba-${aba.id}:focus-visible ~ .abas-rotulos label[for="aba-${aba.id}"] { outline: 2px solid var(--marca-texto); outline-offset: 3px; }`
+    )
+    .join('')
+}
+
+function renderizaPagina(cfg, abas, geradoEm, estilo) {
   const suporte =
     cfg.suporte && cfg.suporte.url
       ? `
@@ -257,7 +329,7 @@ function renderizaPagina(cfg, categorias, geradoEm, estilo) {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap">
-<style>${estilo}</style>
+<style>${estilo}${cssDasAbas(abas)}</style>
 </head>
 <body>
 <div class="envolucro">
@@ -266,26 +338,7 @@ function renderizaPagina(cfg, categorias, geradoEm, estilo) {
     <h1>${esc(cfg.titulo)}</h1>
     <p>${esc(cfg.subtitulo)}</p>
   </header>
-${categorias
-  .map(
-    (cat) => `
-  <section>
-    <h2>${esc(cat.titulo)}</h2>
-    ${cat.descricao ? `<p class="sub">${esc(cat.descricao)}</p>` : ''}
-    <div class="grade">${cat.apps.map(renderizaApp).join('')}</div>
-  </section>`
-  )
-  .join('')}
-
-  <section class="instalacao">
-    <h2>Como instalar</h2>
-    <ol>
-      <li>Clique em <strong>Baixar</strong>. O arquivo vai para a pasta <strong>Downloads</strong> do seu computador.</li>
-      <li>Abra o arquivo baixado com dois cliques.</li>
-      <li>Se o Windows mostrar o aviso <strong>&quot;O Windows protegeu o computador&quot;</strong>, clique em <strong>Mais informações</strong> e depois em <strong>Executar assim mesmo</strong>. O aviso aparece porque o instalador é distribuído fora da loja da Microsoft.</li>
-      <li>Siga o instalador até o fim e abra o programa.</li>
-    </ol>
-  </section>
+${renderizaAbas(abas)}
 ${suporte}
 
   <footer>
@@ -299,6 +352,12 @@ ${suporte}
 
 async function principal() {
   const cfg = JSON.parse(fs.readFileSync(path.join(__dirname, 'apps.json'), 'utf8'))
+  const abas = cfg.abas && cfg.abas.length ? cfg.abas : [{ id: 'windows', titulo: 'Windows', instalacao: INSTALACAO_PADRAO }]
+
+  for (const aba of abas) {
+    if (!/^[a-z0-9-]+$/.test(aba.id)) throw new Error(`id de aba invalido no apps.json: "${aba.id}" (use a-z, 0-9 e -)`)
+  }
+
   const arvore = await api(`/repos/${REPO}/git/trees/${BRANCH}?recursive=1`)
   if (arvore.truncated) console.warn('AVISO: a arvore veio truncada pela API; algum arquivo pode ficar de fora.')
   const blobs = arvore.tree.filter((n) => n.type === 'blob')
@@ -318,13 +377,22 @@ async function principal() {
     if (apps.length) categorias.push({ ...cat, apps })
   }
 
+  const abaDe = (cat) => cat.aba || abas[0].id
+  for (const cat of categorias) {
+    if (!abas.some((aba) => aba.id === abaDe(cat))) console.warn(`AVISO: categoria "${cat.titulo}" aponta para a aba inexistente "${cat.aba}"`)
+  }
+
+  const abasComConteudo = abas
+    .map((aba) => ({ ...aba, categorias: categorias.filter((cat) => abaDe(cat) === aba.id) }))
+    .filter((aba) => aba.categorias.length)
+
   const geradoEm = new Date().toLocaleString('pt-BR', {
     timeZone: 'America/Sao_Paulo',
     dateStyle: 'short',
     timeStyle: 'short',
   })
   const estilo = fs.readFileSync(path.join(__dirname, 'estilo.css'), 'utf8')
-  const html = renderizaPagina(cfg, categorias, geradoEm, estilo)
+  const html = renderizaPagina(cfg, abasComConteudo, geradoEm, estilo)
 
   fs.rmSync(SAIDA, { recursive: true, force: true })
   fs.mkdirSync(SAIDA, { recursive: true })
@@ -333,7 +401,7 @@ async function principal() {
   if (cfg.dominio) fs.writeFileSync(path.join(SAIDA, 'CNAME'), cfg.dominio + '\n')
 
   const total = categorias.reduce((s, c) => s + c.apps.length, 0)
-  console.log(`dist/index.html gerado com ${total} item(ns).`)
+  console.log(`dist/index.html gerado com ${total} item(ns) em ${abasComConteudo.length} aba(s).`)
 }
 
 principal().catch((e) => {

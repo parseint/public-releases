@@ -122,6 +122,36 @@ header p {
   max-width: 58ch;
 }
 
+/* ---------- abas (Windows / Android) ---------- */
+
+.abas { display: flex; flex-direction: column; gap: 40px; }
+
+/* O radio fica invisivel mas focavel: a troca de aba funciona pelo teclado sem JavaScript. */
+.abas > input { position: absolute; opacity: 0; pointer-events: none; }
+
+.abas-rotulos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  border-bottom: 1px solid var(--borda);
+  margin-bottom: -16px;
+}
+
+.abas-rotulos label {
+  cursor: pointer;
+  padding: 10px 18px;
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--texto-fraco);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color 0.2s ease;
+}
+
+.abas-rotulos label:hover { color: var(--texto); }
+
+.aba-painel { display: none; flex-direction: column; gap: 40px; }
+
 /* ---------- secoes ---------- */
 
 section { display: flex; flex-direction: column; gap: 4px; }

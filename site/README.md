@@ -59,6 +59,21 @@ Campos opcionais:
 - `icone`: `impressora`, `monitor`, `totem`, `whatsapp`, `catraca`, `balanca`,
   `imagem` ou `padrao`.
 
+## Abas (Windows / Android)
+
+`abas` no `apps.json` define as abas da página e o "Como instalar" de cada uma
+(`**trecho**` vira negrito). Cada categoria escolhe a sua com `"aba": "android"`;
+sem o campo, ela cai na primeira aba (Windows).
+
+Aba sem nenhum arquivo publicado não aparece, e com uma aba só a página sai sem
+barra de abas. Por isso o card do Android pode ficar no `apps.json` antes do
+primeiro APK. O link `downloads.sischef.com/#android` abre direto na aba Android.
+
+O APK do totem (`sischef/totem-android`) é publicado pelo workflow
+`08 - [Totem Android]` do monorepo e fica **fora do LFS** (o `.gitattributes` só
+leva `*.exe`): tem poucos MB e a atualização automática futura vai ler o arquivo
+pelo `raw.githubusercontent.com`.
+
 ## Detalhes que não são óbvios
 
 **O link de download é `github.com/<repo>/raw/main/<arquivo>`, não
