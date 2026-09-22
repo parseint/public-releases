@@ -1,6 +1,6 @@
 {
   "titulo": "Downloads Sischef",
-  "subtitulo": "Baixe aqui os aplicativos para PC que complementam o Sischef.",
+  "subtitulo": "Baixe aqui os aplicativos que complementam o Sischef, para computador e para totem.",
   "dominio": "downloads.sischef.com",
   "suporte": {
     "texto": "Precisa de ajuda para instalar?",
@@ -8,6 +8,29 @@
     "rotulo": "Falar com o suporte",
     "_comentario": "Preencha a url (WhatsApp/site de suporte). Vazio = bloco de suporte nao aparece na pagina."
   },
+  "abas": [
+    {
+      "id": "windows",
+      "titulo": "Windows",
+      "instalacao": [
+        "Clique em **Baixar**. O arquivo vai para a pasta **Downloads** do seu computador.",
+        "Abra o arquivo baixado com dois cliques.",
+        "Se o Windows mostrar o aviso **\"O Windows protegeu o computador\"**, clique em **Mais informações** e depois em **Executar assim mesmo**. O aviso aparece porque o instalador é distribuído fora da loja da Microsoft.",
+        "Siga o instalador até o fim e abra o programa."
+      ]
+    },
+    {
+      "id": "android",
+      "titulo": "Android",
+      "_comentario": "A aba so aparece quando alguma categoria dela tiver arquivo publicado.",
+      "instalacao": [
+        "No totem, abra o navegador, acesse **downloads.sischef.com/#android** e toque em **Baixar**.",
+        "Abra o arquivo baixado. Se o Android pedir, permita **Instalar apps desconhecidos** para o navegador.",
+        "Se aparecer o aviso do **Play Protect**, toque em **Mais detalhes** e depois em **Instalar mesmo assim**.",
+        "Abra o **Sischef Totem** e faça o pareamento com o código gerado no Sischef Cardápio."
+      ]
+    }
+  ],
   "categorias": [
     {
       "id": "aplicativos",
@@ -114,6 +137,29 @@
             ".jpg"
           ],
           "listarTodos": true
+        }
+      ]
+    },
+    {
+      "id": "totem-android",
+      "aba": "android",
+      "titulo": "Aplicativos",
+      "apps": [
+        {
+          "pasta": "sischef/totem-android",
+          "nome": "Totem de Autoatendimento (Android)",
+          "descricao": "App do totem de autoatendimento para aparelhos Android: pedidos e checkout em tela cheia, com a maquininha Elgin e a impressora do próprio totem.",
+          "requisitos": "Android 6.0 ou superior · totem com impressora USB",
+          "icone": "totem",
+          "destaque": true,
+          "extensoes": [
+            ".apk"
+          ],
+          "ignorar": [
+            "build-date.txt",
+            "versao.txt"
+          ],
+          "historicoEm": "sischef/totem-android/releases"
         }
       ]
     }
